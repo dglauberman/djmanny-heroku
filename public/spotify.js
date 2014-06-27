@@ -306,6 +306,11 @@ document.getElementById("end").addEventListener('click', function () {
         document.getElementById("playlist").appendChild(song);
     }
 
+    var l = playlist.length;
+    for (var i = 0; i < l; i++){
+        playlist.pop();
+    }
+
     $("#playlist").show();
 });
 
