@@ -1,0 +1,193 @@
+button,
+input {
+    border: none;
+}
+#results button,
+#categories button {
+    display: block;
+}
+
+#results {
+    padding-top: 20px;
+    margin-bottom: 20px;
+}
+
+#musiccontrol,
+#songdetails,
+#results {
+    clear: both;
+}
+
+#songdetails{
+    padding-top: 30px;
+    font-family: Arial;
+}
+
+#search input {
+    float: left;
+}
+
+
+#songdetails,
+#playlist {
+    display: none;
+}
+
+#playlist {
+    font-family: Arial;
+}
+
+#next,
+.playing,
+.paused,
+#end {
+    height:50px;
+    width: 50px;
+    margin-top: 20px;
+    margin-right: 5px;
+    margin-bottom: 50px;
+    clear: left;
+}
+
+#next {
+    background: url(img/skip.png) no-repeat;
+    background-size: 100%;
+    -o-background-size: 100%;
+    -webkit-background-size: 100%;
+}
+
+.playing {
+    background: url(img/pause.png) no-repeat;
+    background-size: 100%;
+    -o-background-size: 100%;
+    -webkit-background-size: 100%;
+}
+
+.paused {
+    background: url(img/play.png) no-repeat;
+    background-size: 100%;
+    -o-background-size: 100%;
+    -webkit-background-size: 100%;
+}
+
+
+#end {
+    background: url(img/end.png) no-repeat;
+    background-size: 100%;
+    -o-background-size: 100%;
+    -webkit-background-size: 100%;
+}
+
+#artist,
+#genre,
+#year {
+    margin-bottom: 10px;
+}
+
+#artist.inactive{
+    height: 50px;
+    width: 200px;
+    background: url(img/gray_artist.png) no-repeat;
+    background-size: 100%;
+    -o-background-size: 100%;
+    -webkit-background-size: 100%;
+}
+
+#genre.inactive{
+    height: 50px;
+    width: 200px;
+    background: url(img/gray_genre.png) no-repeat;
+    background-size: 100%;
+    -o-background-size: 100%;
+    -webkit-background-size: 100%;
+}
+
+#year.inactive{
+    height: 50px;
+    width: 200px;
+    background: url(img/gray_year.png) no-repeat;
+    background-size: 100%;
+    -o-background-size: 100%;
+    -webkit-background-size: 100%;
+}
+
+#artist.active{
+    height: 50px;
+    width: 200px;
+    background: url(img/green_artist.png) no-repeat;
+    background-size: 100%;
+    -o-background-size: 100%;
+    -webkit-background-size: 100%;
+}
+
+#genre.active{
+    height: 50px;
+    width: 200px;
+    background: url(img/green_genre.png) no-repeat;
+    background-size: 100%;
+    -o-background-size: 100%;
+    -webkit-background-size: 100%;
+}
+
+#year.active{
+    height: 50px;
+    width: 200px;
+    background: url(img/green_year.png) no-repeat;
+    background-size: 100%;
+    -o-background-size: 100%;
+    -webkit-background-size: 100%;
+}
+
+#searchbutton {
+    top: 100px;
+    height: 50px;
+    width: 50px;
+    background: url(img/search.png) no-repeat;
+    background-size: 100%;
+    -o-background-size: 100%;
+    -webkit-background-size: 100%;
+}
+
+#searchfield {
+    top: 100px;
+    height: 50px;
+    width: 200px;
+    margin-right: 10px;
+    padding: 0;
+    background-color: #CCCCCC;
+    color: #333;
+    font-family: Arial;
+    font-size: 14px;
+}
+
+::-webkit-input-placeholder {
+    color: #333;
+    padding-left: 2px;
+    font-family: Arial;
+    font-size: 14px;
+    font-style: italic;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    color: #333;
+    padding-left: 2px;
+    font-family: Arial;
+    font-size: 14px;
+    font-style: italic;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    color: #333;
+    padding-left: 2px;
+    font-family: Arial;
+    font-size: 14px;
+    font-style: italic;
+}
+
+:-ms-input-placeholder {
+    color: #333;
+    padding-left: 2px;
+    font-family: Arial;
+    font-size: 14px;
+    font-style: italic;
+}
