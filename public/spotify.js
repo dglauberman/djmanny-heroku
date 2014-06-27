@@ -86,7 +86,7 @@ function playNextSongByArtist(searchTerm) {
     var req = new XMLHttpRequest();
 
 
-    req.open('GET', 'https://api.spotify.com/v1/search?q=artist:' + searchTerm + '&type=track');
+    req.open('GET', 'https://api.spotify.com/v1/search?q=artist:' + searchTerm + '&type=track&limit=50');
 
 
     req.onreadystatechange = function() {
@@ -151,7 +151,7 @@ function playNextSongByGenre() {
             else {
                 var genre = genres[0].replace(/\s+/g, '');
                 var req2 = new XMLHttpRequest();
-                req2.open('GET', 'https://api.spotify.com/v1/search?q=genre:' + genre + '&type=artist');
+                req2.open('GET', 'https://api.spotify.com/v1/search?q=genre:' + genre + '&type=artist&limit=50');
 
                 req2.onreadystatechange = function () {
                     if (req2.readyState == 4 && req2.status == 200) {
