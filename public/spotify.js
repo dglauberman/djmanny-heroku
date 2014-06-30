@@ -21,6 +21,7 @@ document.getElementById("genre").addEventListener('click', function () {
     document.getElementById("year").className = "inactive";
     document.getElementById("city").className = "inactive";
     //console.log(category);
+    currentArtist = nowPlaying.artists[0].name;
     setCurrentGenre();
 });
 
@@ -31,6 +32,7 @@ document.getElementById("year").addEventListener('click', function () {
     document.getElementById("year").className = "active";
     document.getElementById("city").className = "inactive";
     //console.log(category);
+    currentArtist = nowPlaying.artists[0].name;
     setCurrentYear();
 
 });
@@ -42,6 +44,7 @@ document.getElementById("city").addEventListener('click', function () {
     document.getElementById("year").className = "inactive";
     document.getElementById("city").className = "active";
     //console.log(category);
+    currentArtist = nowPlaying.artists[0].name;
     setCurrentCity();
 
 });
@@ -156,6 +159,7 @@ function playFirstSong (track) {
             var data = JSON.parse(req.responseText);
             stop();
             nowPlaying = data.tracks.items[0];
+            currentArtist = nowPlaying.artists[0].name;
             nowPlayingAudio = new Audio(data.tracks.items[0].preview_url);
             nowPlayingAudio.play();
             document.getElementById("playpause").className = "playing";
@@ -196,6 +200,7 @@ function playFirstSong (track) {
 //    $("#categories").removeClass("hide");
     $("#musiccontrol").show();
     $("#categories").show();
+    $("#path").show();
     document.getElementById("artist").className = "inactive";
     document.getElementById("genre").className = "inactive";
     document.getElementById("year").className = "inactive";
@@ -206,7 +211,7 @@ function playFirstSong (track) {
 }
 
 function playNextSongByArtist(searchTerm) {
-
+    //currentArtist = searchTerm;
     var req = new XMLHttpRequest();
 
 
@@ -221,7 +226,6 @@ function playNextSongByArtist(searchTerm) {
             var num = Math.floor((Math.random() * (data.tracks.items.length - 1)));
 
             nowPlaying = data.tracks.items[num];
-
             nowPlayingAudio = new Audio(data.tracks.items[num].preview_url);
             nowPlayingAudio.play();
             nowPlayingAudio.addEventListener('ended', function() {
@@ -256,35 +260,36 @@ function playNextSongByArtist(searchTerm) {
     };
 
     req.send(null);
+
+
+
 }
 
 
 function playNextSongByGenre() {
 
 
-                var req2 = new XMLHttpRequest();
-                req2.open('GET', 'https://api.spotify.com/v1/search?q=genre:' + currentGenre + '&type=artist&limit=50');
+    var req2 = new XMLHttpRequest();
+    req2.open('GET', 'https://api.spotify.com/v1/search?q=genre:' + currentGenre + '&type=artist&limit=50');
 
-                req2.onreadystatechange = function () {
-                    if (req2.readyState == 4 && req2.status == 200) {
-                        var data2 = JSON.parse(req2.responseText);
-                        stop();
-                        //console.log(data2.artists.items.length);
-                        if (data2.artists.items.length == 0) {
-                            playNextSongByArtist(nowPlaying.artists[0].name);
-                        }
-                        else {
-                            var num = Math.floor((Math.random() * (data2.artists.items.length - 1)));
-                            //console.log(num);
-                            playNextSongByArtist(data2.artists.items[num].name);
-                        }
+    req2.onreadystatechange = function () {
+        if (req2.readyState == 4 && req2.status == 200) {
+            var data2 = JSON.parse(req2.responseText);
+            stop();
+            //console.log(data2.artists.items.length);
+            if (data2.artists.items.length == 0) {
+                playNextSongByArtist(nowPlaying.artists[0].name);
+            }
+            else {
+                var num = Math.floor((Math.random() * (data2.artists.items.length - 1)));
+                //console.log(num);
+                playNextSongByArtist(data2.artists.items[num].name);
+            }
 
-                    }
-                };
+        }
+    };
 
-                req2.send(null);
-
-
+    req2.send(null);
 
 }
 
@@ -323,7 +328,6 @@ function playNextSongByYear() {
                             var num = Math.floor((Math.random() * (data3.tracks.items.length - 1)));
 
                             nowPlaying = data3.tracks.items[num];
-
                             nowPlayingAudio = new Audio(data3.tracks.items[num].preview_url);
                             nowPlayingAudio.play();
                             nowPlayingAudio.addEventListener('ended', function() {
@@ -418,8 +422,6 @@ function playNextSongByCity(artist) {
     };
 
     req.send(null);
-
-
 }
 
 
@@ -439,7 +441,6 @@ document.getElementById("playpause").addEventListener('click', function () {
 });
 
 document.getElementById("next").addEventListener('click', function() {
-
     nowPlayingAudio.pause();
     switch(category){
         case "artist":
