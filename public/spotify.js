@@ -11,6 +11,7 @@ document.getElementById("artist").addEventListener('click', function () {
     document.getElementById("year").className = "inactive";
     document.getElementById("city").className = "inactive";
     //console.log(category);
+    setCurrentArtist();
 });
 
 document.getElementById("genre").addEventListener('click', function () {
@@ -20,6 +21,7 @@ document.getElementById("genre").addEventListener('click', function () {
     document.getElementById("year").className = "inactive";
     document.getElementById("city").className = "inactive";
     //console.log(category);
+    setCurrentGenre();
 });
 
 document.getElementById("year").addEventListener('click', function () {
@@ -29,6 +31,7 @@ document.getElementById("year").addEventListener('click', function () {
     document.getElementById("year").className = "active";
     document.getElementById("city").className = "inactive";
     //console.log(category);
+    setCurrentYear();
 });
 
 document.getElementById("city").addEventListener('click', function () {
@@ -37,7 +40,8 @@ document.getElementById("city").addEventListener('click', function () {
     document.getElementById("genre").className = "inactive";
     document.getElementById("year").className = "inactive";
     document.getElementById("city").className = "active";
-    console.log(category);
+    //console.log(category);
+    setCurrentCity();
 });
 
 var nowPlayingAudio = null;
@@ -46,6 +50,96 @@ var nowPlaying = null;
 var t; // search term
 
 var playlist = [];
+
+var currentArtist;
+var currentGenre;
+var currentYear;
+var currentCity;
+
+function setCurrentArtist() {
+    currentArtist = nowPlaying.artists[0].name;
+}
+
+function setCurrentGenre() {
+    var req = new XMLHttpRequest();
+    req.open('GET', nowPlaying.artists[0].href);
+
+    req.onreadystatechange = function() {
+        if (req.readyState == 4 && req.status == 200) {
+            var data = JSON.parse(req.responseText);
+            stop();
+            var genres = data.genres;
+            currentGenre = genres[0];
+        }
+    };
+
+    req.send(null);
+}
+
+function setCurrentYear() {
+    var req = new XMLHttpRequest();
+    req.open('GET', nowPlaying.href);
+
+    req.onreadystatechange = function() {
+        if (req.readyState == 4 && req.status == 200) {
+            var data = JSON.parse(req.responseText);
+            stop();
+
+            var req2 = new XMLHttpRequest();
+            req2.open('GET', data.album.href);
+
+            req2.onreadystatechange = function () {
+                if (req2.readyState == 4 && req2.status == 200) {
+                    var data2 = JSON.parse(req2.responseText);
+                    stop();
+
+                    //console.log(data2.release_date);
+                    var year = data2.release_date.substr(0, 4);
+                    //console.log(year);
+                    currentYear = year;
+
+                }
+            };
+
+            req2.send(null);
+
+        }
+    };
+
+    req.send(null);
+}
+
+function setCurrentCity() {
+    var id;
+    var req = new XMLHttpRequest();
+    req.open('GET', "http://developer.echonest.com/api/v4/artist/search?api_key=XMQVSZDOTAALO0S7F&format=json&name="
+        + currentArtist + "&results=1");
+    req.onreadystatechange = function () {
+        if (req.readyState == 4 && req.status == 200) {
+            var results = JSON.parse(req.responseText);
+            stop();
+            id = results.response.artists[0].id;
+
+            var req2 = new XMLHttpRequest();
+            req2.open('GET', "http://developer.echonest.com/api/v4/artist/profile?api_key=XMQVSZDOTAALO0S7F&id="
+                + id + "&format=json&bucket=artist_location");
+            req2.onreadystatechange = function () {
+                if (req2.readyState == 4 && req2.status == 200) {
+                    var results2 = JSON.parse(req2.responseText);
+                    stop();
+                    var city = results2.response.artist.artist_location.city;
+                    //console.log(city);
+                    currentCity = city;
+
+                }
+            };
+
+            req2.send(null);
+        }
+    };
+
+    req.send(null);
+}
 
 function playFirstSong (track) {
 
@@ -358,6 +452,7 @@ document.getElementById("playpause").addEventListener('click', function () {
 });
 
 document.getElementById("next").addEventListener('click', function() {
+
     nowPlayingAudio.pause();
     switch(category){
         case "artist":
@@ -376,6 +471,11 @@ document.getElementById("next").addEventListener('click', function() {
             //playNextSongByArtist(nowPlaying.artists[0].name);
             break;
     }
+
+    console.log(currentArtist);
+    console.log(currentGenre);
+    console.log(currentYear);
+    console.log(currentCity);
 });
 
 document.getElementById("end").addEventListener('click', function () {
