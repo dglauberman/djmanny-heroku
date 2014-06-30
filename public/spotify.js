@@ -92,8 +92,8 @@ function playFirstSong (track) {
 
     req.send(null);
 
-    $("#musiccontrol").removeClass("hide");
-    $("#categories").removeClass("hide");
+//    $("#musiccontrol").removeClass("hide");
+//    $("#categories").removeClass("hide");
     $("#search").hide();
 
 }
