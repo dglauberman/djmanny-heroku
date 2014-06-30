@@ -18,6 +18,7 @@ input {
     clear: both;
 }
 
+
 #songdetails{
     padding-top: 30px;
     font-family: Arial;
@@ -111,6 +112,15 @@ input {
     -webkit-background-size: 100%;
 }
 
+#city.inactive{
+    height: 50px;
+    width: 200px;
+    background: url(img/gray_city.png) no-repeat;
+    background-size: 100%;
+    -o-background-size: 100%;
+    -webkit-background-size: 100%;
+}
+
 #artist.active{
     height: 50px;
     width: 200px;
@@ -133,6 +143,15 @@ input {
     height: 50px;
     width: 200px;
     background: url(img/green_year.png) no-repeat;
+    background-size: 100%;
+    -o-background-size: 100%;
+    -webkit-background-size: 100%;
+}
+
+#city.active{
+    height: 50px;
+    width: 200px;
+    background: url(img/green_city.png) no-repeat;
     background-size: 100%;
     -o-background-size: 100%;
     -webkit-background-size: 100%;
@@ -190,4 +209,12 @@ input {
     font-family: Arial;
     font-size: 14px;
     font-style: italic;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
 }
