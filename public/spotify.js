@@ -61,6 +61,8 @@ var currentGenre;
 var currentYear;
 var currentCity;
 
+var tracks;
+
 function setCurrentArtist() {
     currentArtist = nowPlaying.artists[0].name;
     document.getElementById("path").innerHTML = "Path: " + currentArtist;
@@ -152,49 +154,51 @@ function setCurrentCity() {
 
 function playFirstSong (track) {
 
-    var req = new XMLHttpRequest();
-    req.open('GET', 'https://api.spotify.com/v1/search?q=' + track.innerHTML + '&artist:' + t + '&type=track');
-    req.onreadystatechange = function() {
-        if (req.readyState == 4 && req.status == 200) {
-            var data = JSON.parse(req.responseText);
-            stop();
-            nowPlaying = data.tracks.items[0];
-            currentArtist = nowPlaying.artists[0].name;
-            nowPlayingAudio = new Audio(data.tracks.items[0].preview_url);
-            nowPlayingAudio.play();
-            document.getElementById("playpause").className = "playing";
-            nowPlayingAudio.addEventListener('ended', function() {
-                switch(category){
-                    case "artist":
-                        playNextSongByArtist(nowPlaying.artists[0].name);
-                        break;
-                    case "genre":
-                        playNextSongByGenre();
-                        break;
-                    case "year":
-                        playNextSongByYear();
-                        break;
-                    case "city":
-                        playNextSongByCity(nowPlaying.artists[0].name);
-                        break;
-                }
-            });
-            $("#results").hide();
-            document.getElementById("songtitle").innerText = data.tracks.items[0].name;
-            var artistNames = "";
-            for (var i = 0; i < data.tracks.items[0].artists.length; i++) {
-                if (i == data.tracks.items[0].artists.length - 1)
-                    artistNames += data.tracks.items[0].artists[i].name;
-                else
-                    artistNames += data.tracks.items[0].artists[i].name + ", ";
-            }
-            document.getElementById("songartist").innerText = artistNames;
-            $("#songdetails").show();
-            playlist.push(nowPlaying.name + " by " + artistNames);
+    var url;
+    var index;
+    for (var i = 0; i < tracks.items.length; i++){
+        if (tracks.items[i].name == track.innerHTML){
+            url = tracks.items[i].preview_url;
+            index = i;
+            break;
         }
-    };
+    }
 
-    req.send(null);
+    nowPlaying = tracks.items[index];
+    currentArtist = nowPlaying.artists[0].name;
+    nowPlayingAudio = new Audio(url);
+    nowPlayingAudio.play();
+    document.getElementById("playpause").className = "playing";
+    nowPlayingAudio.addEventListener('ended', function() {
+        switch(category){
+            case "artist":
+                playNextSongByArtist(nowPlaying.artists[0].name);
+                break;
+            case "genre":
+                playNextSongByGenre();
+                break;
+            case "year":
+                playNextSongByYear();
+                break;
+            case "city":
+                playNextSongByCity(nowPlaying.artists[0].name);
+                break;
+        }
+    });
+    $("#results").hide();
+    document.getElementById("songtitle").innerText = nowPlaying.name;
+    var artistNames = "";
+    for (var i = 0; i < nowPlaying.artists.length; i++) {
+        if (i == nowPlaying.artists.length - 1)
+            artistNames += nowPlaying.artists[i].name;
+        else
+            artistNames += nowPlaying.artists[i].name + ", ";
+    }
+    document.getElementById("songartist").innerText = artistNames;
+    $("#songdetails").show();
+    playlist.push(nowPlaying.name + " by " + artistNames);
+       
+
 
 //    $("#musiccontrol").removeClass("hide");
 //    $("#categories").removeClass("hide");
@@ -510,7 +514,7 @@ function findTracks() {
         if (req.readyState == 4 && req.status == 200) {
             var results = JSON.parse(req.responseText);
             stop();
-            var tracks = results.tracks;
+            tracks = results.tracks;
             for (var i = 0; i < tracks.items.length; i++){
                 var track = document.createElement('button');
                 track.innerHTML = tracks.items[i].name;
