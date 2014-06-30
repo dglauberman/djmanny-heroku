@@ -14,10 +14,14 @@ input {
 
 #musiccontrol,
 #songdetails,
-#results {
+#results,
+#playlist {
     clear: both;
 }
 
+#playlist {
+    padding-top: 30px;
+}
 #songdetails{
     padding-top: 30px;
     font-family: Arial;

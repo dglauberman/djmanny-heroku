@@ -395,6 +395,7 @@ document.getElementById("end").addEventListener('click', function () {
     $("#songdetails").hide();
     $("#musiccontrol").hide();
     $("#categories").hide();
+    $("#search").show();
     $("#playlist").show();
 
 });
