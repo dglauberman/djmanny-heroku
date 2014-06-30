@@ -32,6 +32,7 @@ document.getElementById("year").addEventListener('click', function () {
     document.getElementById("city").className = "inactive";
     //console.log(category);
     setCurrentYear();
+
 });
 
 document.getElementById("city").addEventListener('click', function () {
@@ -42,6 +43,7 @@ document.getElementById("city").addEventListener('click', function () {
     document.getElementById("city").className = "active";
     //console.log(category);
     setCurrentCity();
+
 });
 
 var nowPlayingAudio = null;
@@ -58,6 +60,7 @@ var currentCity;
 
 function setCurrentArtist() {
     currentArtist = nowPlaying.artists[0].name;
+    document.getElementById("path").innerHTML = "Path: " + currentArtist;
 }
 
 function setCurrentGenre() {
@@ -70,6 +73,7 @@ function setCurrentGenre() {
             stop();
             var genres = data.genres;
             currentGenre = genres[0];
+            document.getElementById("path").innerHTML = "Path: " + currentGenre;
         }
     };
 
@@ -97,6 +101,7 @@ function setCurrentYear() {
                     var year = data2.release_date.substr(0, 4);
                     //console.log(year);
                     currentYear = year;
+                    document.getElementById("path").innerHTML = "Path: " + currentYear;
 
                 }
             };
@@ -130,6 +135,7 @@ function setCurrentCity() {
                     var city = results2.response.artist.artist_location.city;
                     //console.log(city);
                     currentCity = city;
+                    document.getElementById("path").innerHTML = "Path: " + currentCity;
 
                 }
             };
@@ -221,7 +227,7 @@ function playNextSongByArtist(searchTerm) {
             nowPlayingAudio.addEventListener('ended', function() {
                 switch(category){
                     case "artist":
-                        playNextSongByArtist(nowPlaying.artists[0].name);
+                        playNextSongByArtist(currentArtist);
                         break;
                     case "genre":
                         playNextSongByGenre();
@@ -230,7 +236,7 @@ function playNextSongByArtist(searchTerm) {
                         playNextSongByYear();
                         break;
                     case "city":
-                        playNextSongByCity(nowPlaying.artists[0].name);
+                        playNextSongByCity(currentArtist);
                         break;
                 }
             });
@@ -255,25 +261,9 @@ function playNextSongByArtist(searchTerm) {
 
 function playNextSongByGenre() {
 
-    var req = new XMLHttpRequest();
-    req.open('GET', nowPlaying.artists[0].href);
 
-    req.onreadystatechange = function() {
-        if (req.readyState == 4 && req.status == 200) {
-            var data = JSON.parse(req.responseText);
-            stop();
-            var genres = data.genres;
-            //console.log(genres.toString());
-
-            if (genres.length == 0) {
-                console.log("no genres");
-                playNextSongByArtist();
-            }
-            else {
-                var genre = genres[0].replace(/\s+/g, '');
-                //console.log(genre);
                 var req2 = new XMLHttpRequest();
-                req2.open('GET', 'https://api.spotify.com/v1/search?q=genre:' + genre + '&type=artist&limit=50');
+                req2.open('GET', 'https://api.spotify.com/v1/search?q=genre:' + currentGenre + '&type=artist&limit=50');
 
                 req2.onreadystatechange = function () {
                     if (req2.readyState == 4 && req2.status == 200) {
@@ -293,11 +283,8 @@ function playNextSongByGenre() {
                 };
 
                 req2.send(null);
-            }
-        }
-    };
 
-    req.send(null);
+
 
 }
 
@@ -472,10 +459,10 @@ document.getElementById("next").addEventListener('click', function() {
             break;
     }
 
-    console.log(currentArtist);
-    console.log(currentGenre);
-    console.log(currentYear);
-    console.log(currentCity);
+//    console.log(currentArtist);
+//    console.log(currentGenre);
+//    console.log(currentYear);
+//    console.log(currentCity);
 });
 
 document.getElementById("end").addEventListener('click', function () {
@@ -502,6 +489,7 @@ document.getElementById("end").addEventListener('click', function () {
     $("#songdetails").hide();
     $("#musiccontrol").hide();
     $("#categories").hide();
+    $("#path").hide();
     $("#search").show();
     $("#playlist").show();
 
