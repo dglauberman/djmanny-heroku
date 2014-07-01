@@ -31,6 +31,12 @@
     <button id="city" class="inactive"></button>
 </div>
 <div id="playlist"></div>
+<script src="audiojs/audio.min.js"></script>
+<script>
+    audiojs.events.ready(function() {
+        var as = audiojs.createAll();
+    });
+</script>
 <script src="spotify.js"></script>
 </body>
 </html>

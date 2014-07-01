@@ -197,7 +197,7 @@ function playFirstSong (track) {
     document.getElementById("songartist").innerText = artistNames;
     $("#songdetails").show();
     playlist.push(nowPlaying.name + " by " + artistNames);
-       
+
 
 
 //    $("#musiccontrol").removeClass("hide");
