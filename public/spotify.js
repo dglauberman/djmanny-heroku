@@ -231,7 +231,7 @@ function playNextSongByArtist(searchTerm) {
             var num = Math.floor((Math.random() * (data.tracks.items.length - 1)));
 
             nowPlaying = data.tracks.items[num];
-            nowPlayingAudio = new Audio(data.tracks.items[num].preview_url).play();
+            nowPlayingAudio = new Audio(data.tracks.items[num].preview_url);
             nowPlayingAudio.play();
             nowPlayingAudio.addEventListener('ended', function() {
                 switch(category){
