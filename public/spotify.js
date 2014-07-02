@@ -215,6 +215,7 @@ function playFirstSong (track) {
 }
 
 function playNextSongByArtist(searchTerm) {
+
     //currentArtist = searchTerm;
     var req = new XMLHttpRequest();
 
@@ -230,7 +231,7 @@ function playNextSongByArtist(searchTerm) {
             var num = Math.floor((Math.random() * (data.tracks.items.length - 1)));
 
             nowPlaying = data.tracks.items[num];
-            nowPlayingAudio = new Audio(data.tracks.items[num].preview_url);
+            nowPlayingAudio = new Audio(data.tracks.items[num].preview_url).play();
             nowPlayingAudio.play();
             nowPlayingAudio.addEventListener('ended', function() {
                 switch(category){
