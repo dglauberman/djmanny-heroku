@@ -173,8 +173,10 @@ function playFirstSong (track) {
 
     var url;
     var index;
+    var s = track.innerHTML.replace('&amp;', '&');
+
     for (var i = 0; i < tracks.items.length; i++){
-        if (tracks.items[i].name == track.innerHTML){
+        if (tracks.items[i].name == s){
             url = tracks.items[i].preview_url;
             index = i;
             break;
@@ -198,7 +200,7 @@ function playFirstSong (track) {
                 playNextSongByYear();
                 break;
             case "city":
-                playNextSongByCity(nowPlaying.artists[0].name);
+                playNextSongByCity();
                 break;
         }
     });
@@ -256,6 +258,9 @@ function playNextSongByArtist(searchTerm) {
             if (category == "genre") {
                 setCurrentGenre();
             }
+//            if (category == "city") {
+//                setCurrentCity();
+//            }
             nowPlayingAudio.play();
             nowPlayingAudio.addEventListener('ended', function() {
                 switch(category){
@@ -269,7 +274,7 @@ function playNextSongByArtist(searchTerm) {
                         playNextSongByYear();
                         break;
                     case "city":
-                        playNextSongByCity(currentArtist);
+                        playNextSongByCity();
                         break;
                 }
             });
@@ -375,7 +380,7 @@ function playNextSongByYear() {
                                         playNextSongByYear();
                                         break;
                                     case "city":
-                                        playNextSongByCity(nowPlaying.artists[0].name);
+                                        playNextSongByCity();
                                         break;
                                 }
 
@@ -407,56 +412,27 @@ function playNextSongByYear() {
 
 }
 
-function playNextSongByCity(a) {
-    var id;
-    var req = new XMLHttpRequest();
-    var artist = a.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
-    //console.log(artist);
-    req.open('GET', "http://developer.echonest.com/api/v4/artist/search?api_key=XMQVSZDOTAALO0S7F&format=json&name="
-        + artist + "&results=1");
-    req.onreadystatechange = function () {
-        if (req.readyState == 4 && req.status == 200) {
-            var results = JSON.parse(req.responseText);
-            stop();
-            id = results.response.artists[0].id;
+function playNextSongByCity() {
+    if (currentCity == "") {
+        playNextSongByArtist(nowPlaying.artists[0].name);
+    }
+    else {
+        var req3 = new XMLHttpRequest();
+        req3.open('GET', "http://developer.echonest.com/api/v4/artist/search?api_key=XMQVSZDOTAALO0S7F" +
+            "&format=json&artist_location=city:" + currentCity + "&bucket=artist_location");
 
-            var req2 = new XMLHttpRequest();
-            req2.open('GET', "http://developer.echonest.com/api/v4/artist/profile?api_key=XMQVSZDOTAALO0S7F&id="
-                + id + "&format=json&bucket=artist_location");
-            req2.onreadystatechange = function () {
-                if (req2.readyState == 4 && req2.status == 200) {
-                    var results2 = JSON.parse(req2.responseText);
-                    stop();
+        req3.onreadystatechange = function () {
+            if (req3.readyState == 4 && req3.status == 200) {
+                var results3 = JSON.parse(req3.responseText);
 
-                    if (results2.response.artist.artist_location == null){
-                        playNextSongByArtist(nowPlaying.artists[0].name);
-                    }
-                    else {
-                        var city = results2.response.artist.artist_location.city;
-                        var req3 = new XMLHttpRequest();
-                        req3.open('GET', "http://developer.echonest.com/api/v4/artist/search?api_key=XMQVSZDOTAALO0S7F" +
-                            "&format=json&artist_location=city:" + city + "&bucket=artist_location");
+                var num = Math.floor((Math.random() * (results3.response.artists.length - 1)));
+                //console.log(results3.response.artists.length);
+                playNextSongByArtist(results3.response.artists[num].name);
+            }
+        };
 
-                        req3.onreadystatechange = function () {
-                            if (req3.readyState == 4 && req3.status == 200) {
-                                var results3 = JSON.parse(req3.responseText);
-
-                                var num = Math.floor((Math.random() * (results3.response.artists.length - 1)));
-                                //console.log(results3.response.artists.length);
-                                playNextSongByArtist(results3.response.artists[num].name);
-                            }
-                        };
-
-                        req3.send(null);
-                    }
-                }
-            };
-
-            req2.send(null);
-        }
-    };
-
-    req.send(null);
+        req3.send(null);
+    }
 }
 
 
@@ -488,7 +464,7 @@ document.getElementById("next").addEventListener('click', function() {
             playNextSongByYear();
             break;
         case "city":
-            playNextSongByCity(nowPlaying.artists[0].name);
+            playNextSongByCity();
             break;
         default:
             //playNextSongByArtist(nowPlaying.artists[0].name);
