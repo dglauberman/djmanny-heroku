@@ -85,7 +85,7 @@ function setCurrentGenre() {
             else {
                 currentGenre = "";
                 document.getElementById("path").innerHTML = "This artist does not have any available genres, " +
-                    "please choose another path";
+                    "please choose another path.";
             }
         }
     };
@@ -145,10 +145,17 @@ function setCurrentCity() {
                 if (req2.readyState == 4 && req2.status == 200) {
                     var results2 = JSON.parse(req2.responseText);
                     stop();
-                    var city = results2.response.artist.artist_location.city;
-                    //console.log(city);
-                    currentCity = city;
-                    document.getElementById("path").innerHTML = "Path: " + currentCity;
+
+                    if (results2.response.artist.artist_location == null) {
+                        currentCity = "";
+                        document.getElementById("path").innerHTML = "This artist does not have an available city, " +
+                            "please choose another path.";
+                    }
+                    else {
+                        var city = results2.response.artist.artist_location.city;
+                        currentCity = city;
+                        document.getElementById("path").innerHTML = "Path: " + currentCity;
+                    }
 
                 }
             };
@@ -416,12 +423,12 @@ function playNextSongByCity(artist) {
                 if (req2.readyState == 4 && req2.status == 200) {
                     var results2 = JSON.parse(req2.responseText);
                     stop();
-                    var city = results2.response.artist.artist_location.city;
-                    console.log(city);
-                    if (city == null){
+
+                    if (results2.response.artist.artist_location == null){
                         playNextSongByArtist(nowPlaying.artists[0].name);
                     }
                     else {
+                        var city = results2.response.artist.artist_location.city;
                         var req3 = new XMLHttpRequest();
                         req3.open('GET', "http://developer.echonest.com/api/v4/artist/search?api_key=XMQVSZDOTAALO0S7F" +
                             "&format=json&artist_location=city:" + city + "&bucket=artist_location");
