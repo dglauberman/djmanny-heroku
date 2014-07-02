@@ -130,8 +130,10 @@ function setCurrentYear() {
 function setCurrentCity() {
     var id;
     var req = new XMLHttpRequest();
+    var artist = currentArtist.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+    //console.log(artist);
     req.open('GET', "http://developer.echonest.com/api/v4/artist/search?api_key=XMQVSZDOTAALO0S7F&format=json&name="
-        + currentArtist + "&results=1");
+        + artist + "&results=1");
     req.onreadystatechange = function () {
         if (req.readyState == 4 && req.status == 200) {
             var results = JSON.parse(req.responseText);
@@ -405,9 +407,11 @@ function playNextSongByYear() {
 
 }
 
-function playNextSongByCity(artist) {
+function playNextSongByCity(a) {
     var id;
     var req = new XMLHttpRequest();
+    var artist = a.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+    //console.log(artist);
     req.open('GET', "http://developer.echonest.com/api/v4/artist/search?api_key=XMQVSZDOTAALO0S7F&format=json&name="
         + artist + "&results=1");
     req.onreadystatechange = function () {
@@ -529,7 +533,7 @@ document.getElementById("end").addEventListener('click', function () {
 
 function findTracks() {
     t = document.getElementById("search").elements[0].value;
-    console.log(t);
+    //console.log(t);
 
     var myNode = document.getElementById("results");
     while (myNode.firstChild) {
