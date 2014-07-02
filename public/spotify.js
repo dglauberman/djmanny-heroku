@@ -273,9 +273,9 @@ function playNextSongByArtist(searchTerm) {
 
 function playNextSongByGenre() {
 
-
+    var genre = currentGenre.replace(/\s+/g, '');
     var req2 = new XMLHttpRequest();
-    req2.open('GET', 'https://api.spotify.com/v1/search?q=genre:' + currentGenre + '&type=artist&limit=50');
+    req2.open('GET', 'https://api.spotify.com/v1/search?q=genre:' + genre + '&type=artist&limit=50');
 
     req2.onreadystatechange = function () {
         if (req2.readyState == 4 && req2.status == 200) {
@@ -431,7 +431,7 @@ function playNextSongByCity(artist) {
 
 
 document.getElementById("playpause").addEventListener('click', function () {
-    console.log(playlist.toString());
+    //console.log(playlist.toString());
     if (nowPlayingAudio != null) {
         if (!nowPlayingAudio.paused){
             nowPlayingAudio.pause();
