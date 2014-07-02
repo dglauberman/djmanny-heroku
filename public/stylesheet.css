@@ -88,27 +88,28 @@ input {
 }
 
 #artist {
-    height: 50px;
-    width: 200px;
-    background: url(img/artist.png) no-repeat;
+    background: url(img/artist_double.png) no-repeat;
 }
 
 #genre {
-    height: 50px;
-    width: 200px;
-    background: url(img/genre.png) no-repeat;
+    background: url(img/genre_double.png) no-repeat;
 }
 
 #year {
-    height: 50px;
-    width: 200px;
-    background: url(img/year.png) no-repeat;
+    background: url(img/year_double.png) no-repeat;
 }
 
 #city {
+    background: url(img/city_double.png) no-repeat;
+}
+
+#artist,
+#genre,
+#year,
+#city {
     height: 50px;
     width: 200px;
-    background: url(img/city.png) no-repeat;
+    background-size: 200%;
 }
 
 #artist.inactive,

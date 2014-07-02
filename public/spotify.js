@@ -218,18 +218,21 @@ function playFirstSong (track) {
     playlist.push(nowPlaying.name + " by " + artistNames);
 
 
+   $("#container").removeClass("hide").addClass("show");
 
 //    $("#musiccontrol").removeClass("hide");
 //    $("#categories").removeClass("hide");
     $("#musiccontrol").show();
     $("#categories").show();
+    document.getElementById("path").innerText = "Path: ";
     $("#path").show();
     document.getElementById("artist").className = "inactive";
     document.getElementById("genre").className = "inactive";
     document.getElementById("year").className = "inactive";
     document.getElementById("city").className = "inactive";
+    category = "";
     $("#search").hide();
-    $("#playlist").hide();
+
 
 }
 
@@ -502,6 +505,7 @@ document.getElementById("end").addEventListener('click', function () {
     $("#musiccontrol").hide();
     $("#categories").hide();
     $("#path").hide();
+    $("#container").addClass("hide");
     $("#search").show();
     $("#playlist").show();
 
@@ -535,7 +539,7 @@ function findTracks() {
         }
     };
     req.send(null);
-
+    $("#playlist").hide();
     $("#results").show();
 
 }
