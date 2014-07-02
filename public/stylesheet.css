@@ -87,76 +87,43 @@ input {
     margin-bottom: 10px;
 }
 
-#artist.inactive{
+#artist {
     height: 50px;
     width: 200px;
-    background: url(img/gray_artist.png) no-repeat;
-    background-size: 100%;
-    -o-background-size: 100%;
-    -webkit-background-size: 100%;
+    background: url(img/artist.png) no-repeat;
 }
 
-#genre.inactive{
+#genre {
     height: 50px;
     width: 200px;
-    background: url(img/gray_genre.png) no-repeat;
-    background-size: 100%;
-    -o-background-size: 100%;
-    -webkit-background-size: 100%;
+    background: url(img/genre.png) no-repeat;
 }
 
-#year.inactive{
+#year {
     height: 50px;
     width: 200px;
-    background: url(img/gray_year.png) no-repeat;
-    background-size: 100%;
-    -o-background-size: 100%;
-    -webkit-background-size: 100%;
+    background: url(img/year.png) no-repeat;
 }
 
-#city.inactive{
+#city {
     height: 50px;
     width: 200px;
-    background: url(img/gray_city.png) no-repeat;
-    background-size: 100%;
-    -o-background-size: 100%;
-    -webkit-background-size: 100%;
+    background: url(img/city.png) no-repeat;
 }
 
-#artist.active{
-    height: 50px;
-    width: 200px;
-    background: url(img/green_artist.png) no-repeat;
-    background-size: 100%;
-    -o-background-size: 100%;
-    -webkit-background-size: 100%;
+#artist.inactive,
+#genre.inactive,
+#year.inactive,
+#city.inactive {
+    background-position: left;
+
 }
 
-#genre.active{
-    height: 50px;
-    width: 200px;
-    background: url(img/green_genre.png) no-repeat;
-    background-size: 100%;
-    -o-background-size: 100%;
-    -webkit-background-size: 100%;
-}
-
-#year.active{
-    height: 50px;
-    width: 200px;
-    background: url(img/green_year.png) no-repeat;
-    background-size: 100%;
-    -o-background-size: 100%;
-    -webkit-background-size: 100%;
-}
-
-#city.active{
-    height: 50px;
-    width: 200px;
-    background: url(img/green_city.png) no-repeat;
-    background-size: 100%;
-    -o-background-size: 100%;
-    -webkit-background-size: 100%;
+#artist.active,
+#genre.active,
+#year.active,
+#city.active {
+    background-position: right;
 }
 
 #searchbutton {
