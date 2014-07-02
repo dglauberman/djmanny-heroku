@@ -75,10 +75,18 @@ function setCurrentGenre() {
     req.onreadystatechange = function() {
         if (req.readyState == 4 && req.status == 200) {
             var data = JSON.parse(req.responseText);
-            stop();
+            //stop();
             var genres = data.genres;
-            currentGenre = genres[0];
-            document.getElementById("path").innerHTML = "Path: " + currentGenre;
+            //console.log(genres);
+            if (genres.length > 0) {
+                currentGenre = genres[0];
+                document.getElementById("path").innerHTML = "Path: " + currentGenre;
+            }
+            else {
+                currentGenre = "";
+                document.getElementById("path").innerHTML = "This artist does not have any available genres, " +
+                    "please choose another path";
+            }
         }
     };
 
@@ -231,7 +239,14 @@ function playNextSongByArtist(searchTerm) {
             var num = Math.floor((Math.random() * (data.tracks.items.length - 1)));
 
             nowPlaying = data.tracks.items[num];
+
             nowPlayingAudio = new Audio(data.tracks.items[num].preview_url);
+            if (category == "artist") {
+                setCurrentArtist();
+            }
+            if (category == "genre") {
+                setCurrentGenre();
+            }
             nowPlayingAudio.play();
             nowPlayingAudio.addEventListener('ended', function() {
                 switch(category){
@@ -266,36 +281,40 @@ function playNextSongByArtist(searchTerm) {
 
     req.send(null);
 
-
-
 }
 
 
 function playNextSongByGenre() {
 
-    var genre = currentGenre.replace(/\s+/g, '');
-    var req2 = new XMLHttpRequest();
-    req2.open('GET', 'https://api.spotify.com/v1/search?q=genre:' + genre + '&type=artist&limit=50');
+    if (currentGenre == "") {
+        //console.log("no genre, playing by artist");
+        playNextSongByArtist(nowPlaying.artists[0].name);
+    }
+    else {
+        var genre = currentGenre.replace(/\s+/g, '');
+        var req2 = new XMLHttpRequest();
+        req2.open('GET', 'https://api.spotify.com/v1/search?q=genre:' + genre + '&type=artist&limit=50');
 
-    req2.onreadystatechange = function () {
-        if (req2.readyState == 4 && req2.status == 200) {
-            var data2 = JSON.parse(req2.responseText);
-            stop();
-            //console.log(data2.artists.items.length);
-            if (data2.artists.items.length == 0) {
-                playNextSongByArtist(nowPlaying.artists[0].name);
+        req2.onreadystatechange = function () {
+            if (req2.readyState == 4 && req2.status == 200) {
+                var data2 = JSON.parse(req2.responseText);
+                stop();
+                //console.log(data2.artists.items.length);
+                if (data2.artists.items.length == 0) {
+                    playNextSongByArtist(nowPlaying.artists[0].name);
+                }
+                else {
+                    var num = Math.floor((Math.random() * (data2.artists.items.length - 1)));
+                    //console.log(num);
+                    playNextSongByArtist(data2.artists.items[num].name);
+                }
             }
-            else {
-                var num = Math.floor((Math.random() * (data2.artists.items.length - 1)));
-                //console.log(num);
-                playNextSongByArtist(data2.artists.items[num].name);
-            }
+        };
 
-        }
-    };
+        req2.send(null);
+    }
 
-    req2.send(null);
-
+    //setCurrentGenre();
 }
 
 function playNextSongByYear() {
